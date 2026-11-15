@@ -14,6 +14,16 @@
 | 배포 주소 (Vercel) | https://next-js-todo-list-iota.vercel.app |
 | 이전 버전 (JavaScript) | [jsa00/JavaScript-Todo-List](https://github.com/jsa00/JavaScript-Todo-List) |
 
+### 🔑 시연용 계정
+
+| 이메일 | 비밀번호 |
+| --- | --- |
+| `user@example.com` | `user1234!` |
+
+- 배포 주소에서 위 계정으로 바로 로그인해 볼 수 있습니다.
+- 새로 회원가입하면 메일 인증(Confirm email)을 마쳐야 로그인할 수 있습니다.
+- 로그인한 계정의 할 일만 보이므로(RLS), 시연 계정으로는 다른 회원의 데이터를 볼 수 없습니다.
+
 <br>
 
 ## ✨ 주요 기능

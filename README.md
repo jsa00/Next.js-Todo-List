@@ -11,7 +11,7 @@
 
 | 구분 | 주소 |
 | --- | --- |
-| 배포 주소 | 배포 후 추가 예정 |
+| 배포 주소 (Vercel) | https://next-js-todo-list-iota.vercel.app |
 | 이전 버전 (JavaScript) | [jsa00/JavaScript-Todo-List](https://github.com/jsa00/JavaScript-Todo-List) |
 
 <br>
@@ -166,6 +166,14 @@ npm run dev
 ```
 
 브라우저에서 `http://localhost:3000` 접속 → 로그인 페이지로 이동하면 정상입니다.
+
+### 5. 배포 (Vercel)
+
+1. Vercel에서 GitHub 저장소를 Import하고, Application Preset은 **Next.js** 그대로 둡니다.
+2. **Environment Variables**에 `.env`와 같은 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`를 등록하고 배포합니다.
+3. Supabase 대시보드 **Authentication > URL Configuration**에서 **Site URL**에 배포 주소를, **Redirect URLs**에 `배포주소/**`를 추가합니다.
+
+`main` 브랜치에 push(PR merge)하면 Vercel이 자동으로 다시 빌드·배포합니다.
 
 <br>
 

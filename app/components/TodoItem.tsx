@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useTransition } from 'react';
 import { deleteTodo, toggleTodo } from '@/app/actions';
 import type { Todo } from '@/app/types/todo';
@@ -53,9 +54,13 @@ export default function TodoItem({
                 />
                 <span className="text-sm text-gray-500">완료</span>
             </label>
-            <div className={`group-hover:shadow-md ${doneClass}`}>
+            {/* 제목을 누르면 상세 페이지(/todos/번호)로 이동 */}
+            <Link
+                href={`/todos/${todo.id}`}
+                className={`block group-hover:shadow-md hover:text-orange-500 hover:underline ${doneClass}`}
+            >
                 [{todo.date}]{todo.title}
-            </div>
+            </Link>
             <div className={`todo-content ${doneClass}`}>{todo.content}</div>
             <div className="flex justify-between gap-1">
                 <button

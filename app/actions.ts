@@ -52,9 +52,14 @@ export async function saveTodo(
         };
     }
 
-    // 메인 페이지 캐시를 비워 최신 목록을 다시 그린다.
-    revalidatePath('/');
+    revalidateTodo(id);
     return { success: true, message: id ? '수정했습니다.' : '등록했습니다.' };
+}
+
+// 목록과 해당 할 일의 상세 페이지 캐시를 비워 최신 데이터로 다시 그린다.
+function revalidateTodo(id: number | null) {
+    revalidatePath('/');
+    if (id) revalidatePath(`/todos/${id}`);
 }
 
 // 할 일 완료 상태 토글 Server Action
@@ -71,7 +76,7 @@ export async function toggleTodo(id: number, isCompleted: boolean) {
         return;
     }
 
-    revalidatePath('/');
+    revalidateTodo(id);
 }
 
 // 할 일 삭제 Server Action
@@ -85,5 +90,5 @@ export async function deleteTodo(id: number) {
         return;
     }
 
-    revalidatePath('/');
+    revalidateTodo(id);
 }

@@ -1,0 +1,35 @@
+# 모든 에디터·언어 공통 기본 규칙 (repo 루트에 둡니다)
+# https://editorconfig.org
+root = true
+
+# 모든 파일 공통
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Python은 PEP 8에 맞춰 4칸
+[*.py]
+indent_size = 4
+
+# Java, Go 등 4칸 관례 언어
+[*.{java,kt}]
+indent_size = 4
+
+[*.go]
+indent_style = tab
+
+# Makefile은 탭이 필수
+[Makefile]
+indent_style = tab
+
+# 마크다운은 줄 끝 공백 2칸이 줄바꿈 문법이라 지우지 않음
+[*.md]
+trim_trailing_whitespace = false
+
+# Next.js 소스는 튜터 .prettierrc(tabWidth 4)에 맞춰 4칸
+[*.{ts,tsx,js,mjs,css,json}]
+indent_size = 4

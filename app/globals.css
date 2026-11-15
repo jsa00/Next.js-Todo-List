@@ -1,26 +1,126 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
+/*
+ * Todo 리스트 공통 스타일 (JavaScript Todo List의 css/style.css를 옮김)
+ * - 화면 대부분은 컴포넌트의 Tailwind 클래스로 꾸미고, 여기에는 Tailwind로 쓰기 번거로운 공통 스타일만 둔다.
+ * - 규칙을 Tailwind의 base·components 레이어에 넣어서 유틸리티 클래스가 항상 우선 적용되게 한다.
+ */
+
+/* 공통 값 (Tailwind 변수와 이름이 겹치지 않게 --todo- 접두사 사용) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --todo-font:
+        var(--font-gamja-flower), 'Apple SD Gothic Neo', 'Malgun Gothic',
+        system-ui, sans-serif; /* 기본 글꼴 (layout.tsx의 next/font, 실패 시 시스템 한글 글꼴) */
+    --todo-font-size: 110%; /* 기본 글자 크기. Gamja Flower가 작게 보여서 키움 */
+    --todo-bg: #fffaf3; /* 페이지 배경 */
+    --todo-text: #374151; /* 기본 글자색 */
+    --todo-muted: #9ca3af; /* 안내 문구 글자색 */
+    --todo-primary: #fb923c; /* 주 색상 (제목 바·선택된 필터와 같은 주황) */
+    --todo-focus: #6366f1; /* 키보드 포커스 테두리 */
+    --todo-done-bg: #f3f4f6; /* 완료한 할 일 카드 배경 */
+    --todo-duration: 0.2s; /* 상태 전환 효과 시간 */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* 기본 요소 스타일 */
+@layer base {
+    /* rem 단위 Tailwind 클래스가 같은 비율로 커지도록 루트 글자 크기를 %로 지정 */
+    html {
+        font-size: var(--todo-font-size);
+    }
+
+    body {
+        min-height: 100vh;
+        font-family: var(--todo-font);
+        line-height: 1.6;
+        color: var(--todo-text);
+        background-color: var(--todo-bg);
+    }
+
+    /* 드래그로 선택한 글자 */
+    ::selection {
+        color: #fff;
+        background-color: var(--todo-primary);
+    }
+
+    /* 키보드(Tab)로 이동할 때만 보이는 포커스 테두리 */
+    :focus-visible {
+        outline: 3px solid var(--todo-focus);
+        outline-offset: 2px;
+    }
+
+    /* 입력 중인 칸 테두리 색 */
+    input:focus,
+    textarea:focus {
+        border-color: var(--todo-primary);
+    }
+
+    /* 내용 입력칸은 세로로만 크기를 조절할 수 있다. */
+    textarea {
+        resize: vertical;
+    }
+
+    /* 체크박스 체크 색상 */
+    input[type='checkbox'] {
+        accent-color: var(--todo-primary);
+    }
+
+    /* 버튼 색상·눌림 효과 전환 */
+    button {
+        transition:
+            background-color var(--todo-duration),
+            color var(--todo-duration),
+            transform 0.1s;
+    }
+
+    /* 버튼을 누르는 동안 살짝 작아져서 눌린 느낌을 준다. */
+    button:active {
+        transform: scale(0.97);
+    }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 할 일 목록 공통 스타일 */
+@layer components {
+    /* 할 일 카드 */
+    .todo-item {
+        background-color: #fff;
+        transition:
+            background-color var(--todo-duration),
+            box-shadow var(--todo-duration),
+            border-color var(--todo-duration);
+    }
+
+    .todo-item:hover {
+        border-color: var(--todo-primary);
+        box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+    }
+
+    /* 완료한 할 일 카드 */
+    .todo-item.is-done {
+        background-color: var(--todo-done-bg);
+    }
+
+    /* 목록이 비었을 때·불러오는 중 안내 문구 */
+    .todo-empty {
+        grid-column: 1 / -1; /* 두 칸 화면에서도 한 줄 전체 사용 */
+        padding: 2rem 0;
+        text-align: center;
+        color: var(--todo-muted);
+    }
+
+    /* 할 일 내용의 줄바꿈 유지 (textarea에서 입력한 줄바꿈이 그대로 보인다.) */
+    .todo-content {
+        white-space: pre-line;
+        word-break: break-all;
+    }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 움직임 줄이기를 켠 사용자에게는 전환 효과를 끈다. (운영체제 접근성 설정) */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
